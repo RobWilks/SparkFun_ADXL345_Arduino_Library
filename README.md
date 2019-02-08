@@ -1,3 +1,20 @@
+Modified 8/2/19 to solve following problem:
+
+Interrupt service routine called but the interrupt state never cleared.
+The INT1 pin on ADXL345 board changed from 0V to 3.3V and remained at this level.
+The first interrupt causes execution of main loop to halt.
+The old ISR had a large call stack which seemed bad practice.
+
+CHANGE
+Replaced with new ISR that simply sets a flag to indicate that an interrupt has occurred.
+The source of interrupt is determined in the main loop, action taken and the flag cleared.
+It would be better to disable interrupts from the ADXL until the flag is cleared.
+
+FUTURE TO DO
+The current routine to write to the ADXL registers is inefficient with each bit written independently
+rather than in parallel as a byte
+
+
 # ADXL345
 Sparkfun's I2C/SPI Arduino Library for ADXL345
 
@@ -26,22 +43,6 @@ Repository Contents
 * **/examples** - Example sketches for the library (**SparkFun_ADXL345_Example.ino** and **SparkFun_ADXL345_Calibration.ino**). Run these from the Arduino IDE. 
 * Source files for the library (**SparkFun_ADXL345.cpp** and **SparkFun_ADXL345.h**).
 * **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE. 
-
-Modified 8/2/19 to solve following problem:
-
-Interrupt service routine called but the interrupt state never cleared.
-The INT1 pin on ADXL345 board changed from 0V to 3.3V and remained at this level.
-The first interrupt causes execution of main loop to halt.
-The old ISR had a large call stack which seemed bad practice.
-
-CHANGE
-Replaced with new ISR that simply sets a flag to indicate that an interrupt has occurred.
-The source of interrupt is determined in the main loop, action taken and the flag cleared.
-It would be better to disable interrupts from the ADXL until the flag is cleared.
-
-FUTURE TO DO
-The current routine to write to the ADXL registers is inefficient with each bit written independently
-rather than in parallel as a byte
 
 Documentation
 --------------
