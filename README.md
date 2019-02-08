@@ -1,4 +1,5 @@
 **SparkFun_ADXL345_Example.ino**
+
 Modified 8/2/19 to solve following problem:
 
 Interrupt service routine called but the interrupt state never cleared.
