@@ -27,6 +27,18 @@ Repository Contents
 * Source files for the library (**SparkFun_ADXL345.cpp** and **SparkFun_ADXL345.h**).
 * **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE. 
 
+modified 8/2/19 to solve following problem:
+Interrupt service routine called but the interrupt state never cleared
+The INT1 pin on ADXL345 board changed from 0V to 3.3V and remained at this level
+Execution of main loop halted
+The old ISR had a large call stack which seemed bad practice
+CHANGE
+Replaced with new ISR that simply sets a flag to indicate that an interrupt has occurred
+The source of interrupt is determined in the main loop, action taken and the flag cleared
+It would be better to disable interrupts from the ADXL until the flag is cleared 
+The current routine to write to the ADXL registers is inefficient with each bit written independently
+rather than in parallel as a byte
+
 Documentation
 --------------
 
